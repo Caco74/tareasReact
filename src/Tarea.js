@@ -36,7 +36,8 @@ export default class Tarea extends Component {
     const tarea = {
       nombre : actividad,
       dateIni : fechaI,
-      dateFin : fechaF
+      dateFin : fechaF,
+      complete: false
     }
     document.getElementById('actividad').value = '';
     this.props.addTask(tarea)
@@ -44,23 +45,30 @@ export default class Tarea extends Component {
 
   render() {
     return (
-      <div className='m-2' >
-        <form className="form-inline">
-            <label className="sr-only">Tarea</label>
+      <div className='m-3' >
+        <form className="form-inline justify-content-center">
+          <div className="col-3">
             <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
             id="actividad" placeholder="Tarea"/>
-            <label className="sr-only">Fecha inicio</label>
+          </div>
+
+          <div className="col-3">
             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                 <span className='fa fa-calendar pt-1 pr-1' ></span>
                 <Fecha id="fecha_ini" sendChange={this.sendChange}/>
             </div>
-            <label className="sr-only">Fecha Fin</label>
+          </div>
+          <div className="col-3">
             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
               <span className='fa fa-calendar pt-1 pr-1' ></span>
               <Fecha id="fecha_fin" sendChange={this.sendChange}/>
             </div>
-            <div className='fa fa-plus-circle' onClick={this.onClick}></div>
-            </form>
+          </div>
+
+          <div className="col-1">
+            <div onClick={this.onClick}><a href="/#" className="text-dark"><i className="fa fa-plus-circle fa-lg"></i></a></div>
+          </div>
+        </form>
       </div>
     )
   }
