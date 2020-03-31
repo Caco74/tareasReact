@@ -13,6 +13,7 @@ class Fecha extends React.Component {
       startDate: ''
     };
     this.handleChange = this.handleChange.bind(this);
+    this.sendChange = this.sendChange.bind(this);
   }
 
   handleChange = date => {
@@ -23,12 +24,19 @@ class Fecha extends React.Component {
     console.log(this.props.id)
   };
 
+  sendChange = (e) => {
+    console.log(e);
+    console.log('dsfsadf');
+  }
+
   render() {
+    const { sendChange } = this.props
     return (
       <DatePicker
         selected={this.state.startDate}
         onChange={this.handleChange}
         id={this.props.id}
+        onClick={sendChange}
       />
     );
   }
