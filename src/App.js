@@ -3,7 +3,6 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import '../node_modules/font-awesome/css/font-awesome.css'
 import Tarea from './Tarea.js'
-import Check from './Check.js'
 
 class App extends Component {
 
@@ -24,24 +23,41 @@ class App extends Component {
     })
   }
 
-  check = (e) => {
-    console.log(e);
-    alert('Check!')
+  removeTask = (index) => {
+    console.log('Elemento a remover ' + index);
+    this.setState((prevState) => {
+      const tempTasks = prevState.task
+      console.log(tempTasks);
+      tempTasks.splice(index,1)
+      return {task: tempTasks}
+    })
   }
-  close = (e) => {
+
+  completeTask = (index) => {
+    const tempTasks = this.state.task;
+    console.log(tempTasks);
+    tempTasks[index].complete = true
+    this.setState({task: tempTasks})
+  }
+
+  manejoOnClick = (e, index) => {
     console.log(e);
-    alert('Close!')
+    console.log(index);
+    if (e.target.id === 'remove') this.removeTask(index)
+    else if (e.target.id === 'complete') this.completeTask(index)
   }
 
   render() {
     const tareasIniciales = this.state.task.map((task, index) => {
+      let styleStatus = ''
+      styleStatus = task.complete ? 'text-success' : styleStatus;
       return (
         <div className="row p-2 justify-content-center" id={index+1} key={index}>
-          <div className="col-4 text-success">{'# ' + task.nombre}</div>
-          <div className="col-2">{task.dateIni}</div>
-          <div className="col-2">{task.dateFin}</div>
-          <Check active={task.complete}></Check>
-          <div className="col-1" onClick={this.close}><a href="/#" className="text-dark"><i className="fa fa-times fa-lg float-left"></i></a></div>
+          <div className={"col-4 " + styleStatus}>{'# ' + task.nombre}</div>
+          <div className={"col-2 " + styleStatus}>{task.dateIni}</div>
+          <div className={"col-2 " + styleStatus}>{task.dateFin}</div>
+          <div className="col-1" onClick={(e) => this.manejoOnClick(e, index)}><a href="/#" className="text-dark" ><i className="fa fa-check float-right" id='complete'></i></a></div>
+          <div className="col-1" onClick={(e) => this.manejoOnClick(e, index)}><a href="/#" className="text-dark" ><i className="fa fa-times float-left" id='remove'></i></a></div>
         </div>
       )
     });
