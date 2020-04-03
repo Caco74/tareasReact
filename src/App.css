@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+.caco {
+  background-color: red;
+}
+.tomato {
+  background-color: tomato;
+}
+.grey {
+  background-color: grey;
+}
+.brown {
+  background-color: brown;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
