@@ -37,39 +37,56 @@ export default class Tarea extends Component {
       nombre : actividad,
       dateIni : fechaI,
       dateFin : fechaF,
-      complete: false
+      complete: false,
+      index: this.props.index
     }
     document.getElementById('actividad').value = '';
-    this.props.addTask(tarea)
+    if (this.props.addTask) {
+      this.props.addTask(tarea)
+    } else if (this.props.saveTask) {
+      this.props.saveTask(tarea)
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.task) {
+      document.getElementById('actividad').value = this.props.task.nombre
+      document.getElementById('fecha_ini').value = this.props.task.dateIni
+      document.getElementById('fecha_fin').value = this.props.task.dateFin
+    }
+  }
+
+  displayFocus = () => {
+    let elem = document.getElementById('actividad')
+    elem.setAttribute('placeholder', 'Tarea a realizar ..')
   }
 
   render() {
+    let cancelButton = ''
+    let icon = 'fa-plus-circle fa-lg'
+    if (this.props.task) {
+      icon = 'fa-edit fa-lg'
+      cancelButton = <div className="border fa fa-ban pl-1" onClick={this.onClick}></div>
+    }
     return (
-      <div className='m-3' >
-        <form className="form-inline justify-content-center">
-          <div className="col-3">
+        <div className="form-row m-2 mt-4 justify-content-center" id={this.props.id}>
+          <div className="col-lg-3 col-md-3">
             <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
-            id="actividad" placeholder="Tarea"/>
+            id="actividad" placeholder="Tarea" onFocus={this.displayFocus}/>
           </div>
-
-          <div className="col-3">
-            <div className="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div className="col-lg-3 col-md-3">
                 <span className='fa fa-calendar pt-1 pr-1' ></span>
-                <Fecha id="fecha_ini" sendChange={this.sendChange}/>
-            </div>
+                <Fecha id="fecha_ini"/>
           </div>
-          <div className="col-3">
-            <div className="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div className="col-lg-3 col-md-3">
               <span className='fa fa-calendar pt-1 pr-1' ></span>
-              <Fecha id="fecha_fin" sendChange={this.sendChange}/>
-            </div>
+              <Fecha id="fecha_fin"/>
           </div>
-
-          <div className="col-1">
-            <div onClick={this.onClick}><a href="/#" className="text-dark"><i className="fa fa-plus-circle fa-lg"></i></a></div>
+          <div className="col-lg-1 col-md-1">
+            <a href="/#" onClick={this.onClick} className="text-dark"><i className={"fa " + icon}></i></a>
           </div>
-        </form>
-      </div>
+          {cancelButton}
+        </div>
     )
   }
 }
